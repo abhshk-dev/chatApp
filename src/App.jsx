@@ -71,7 +71,12 @@ function App() {
         <h1 className="text-4xl font-semibold text-white">Chat App </h1>
       </div>
       {user.email ? null : (
-        <div className="flex items-center justify-center gap-6 max-w-[300px] lg:max-w-[450px] mt-[40%] lg:mt-[10%]  mx-auto border-[1px] border-gray-300 shadow-md rounded-md p-3">
+        <div
+          onClick={(e) => {
+            googleLogin();
+          }}
+          className=" cursor-pointer flex items-center justify-center gap-6 max-w-[300px] lg:max-w-[450px] mt-[40%] lg:mt-[10%]  mx-auto border-[1px] border-gray-300 shadow-md rounded-md p-3"
+        >
           {/* <label className="m-2 text-lg font-medium" htmlFor="name">
             Your name:
           </label>
@@ -106,12 +111,8 @@ function App() {
               d="M130.55 50.479c24.514 0 41.05 10.589 50.479 19.438l36.844-35.974C195.245 12.91 165.798 0 130.55 0 79.49 0 35.393 29.301 13.925 71.947l42.211 32.783c10.59-31.477 39.891-54.251 74.414-54.251"
             ></path>
           </svg>
-          <button
-            className="font-semibold text-[#232323] lg:text-lg "
-            onClick={(e) => {
-              googleLogin();
-            }}
-          >
+
+          <button className="font-semibold text-[#232323] lg:text-lg ">
             Sign up with Google
           </button>
         </div>
