@@ -61,6 +61,7 @@ function App() {
 
   useEffect(() => {
     onValue(chatListRef, (snapshot) => {
+      console.log(snapshot);
       snapshot.forEach((childSnapshot) => {
         console.log(childSnapshot.val());
         setChats((chats) => [...chats, childSnapshot.val()]);
@@ -84,7 +85,7 @@ function App() {
     setMsg("");
   };
 
-  console.log(chats);
+  // console.log(chats);
 
   return (
     <>
