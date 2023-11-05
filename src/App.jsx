@@ -1,5 +1,12 @@
 import { useEffect, useState } from "react";
-import { getDatabase, set, push, ref, onChildAdded } from "firebase/database";
+import {
+  getDatabase,
+  set,
+  push,
+  ref,
+  onChildAdded,
+  onValue,
+} from "firebase/database";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
 function App() {
@@ -43,12 +50,24 @@ function App() {
     }
   };
 
+  // useEffect(() => {
+  //   onChildAdded(chatListRef, (data) => {
+  //     setChats((chats) => [...chats, data.val()]);
+  //     setTimeout(() => {
+  //       updateHeight();
+  //     }, 100);
+  //   });
+  // }, []);
+
   useEffect(() => {
-    onChildAdded(chatListRef, (data) => {
-      setChats((chats) => [...chats, data.val()]);
-      setTimeout(() => {
-        updateHeight();
-      }, 100);
+    onValue(chatListRef, (snapshot) => {
+      snapshot.forEach((childSnapshot) => {
+        console.log(childSnapshot.val());
+        setChats((chats) => [...chats, childSnapshot.val()]);
+        setTimeout(() => {
+          updateHeight();
+        }, 100);
+      });
     });
   }, []);
 
@@ -65,6 +84,8 @@ function App() {
     setMsg("");
   };
 
+  console.log(chats);
+
   return (
     <>
       <div className=" text-center bg-slate-500  py-4 ">
@@ -77,15 +98,6 @@ function App() {
           }}
           className=" cursor-pointer flex items-center justify-center gap-6 max-w-[300px] lg:max-w-[450px] mt-[40%] lg:mt-[10%]  mx-auto border-[1px] border-gray-300 shadow-md rounded-md p-3"
         >
-          {/* <label className="m-2 text-lg font-medium" htmlFor="name">
-            Your name:
-          </label>
-          <input
-            className="border-2 border-gray-400 my-6 mt-0 p-2"
-            type="text"
-            placeholder="Enter your name"
-            onBlur={(e) => setName(e.target.value)}
-          /> */}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="30"
