@@ -6,6 +6,7 @@ import {
   ref,
   onChildAdded,
   onValue,
+  onChildRemoved,
 } from "firebase/database";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
@@ -52,6 +53,7 @@ function App() {
 
   useEffect(() => {
     onChildAdded(chatListRef, (data) => {
+      console.log(data.val(), data.key);
       setChats((chats) => [...chats, data.val()]);
       setTimeout(() => {
         updateHeight();
@@ -75,6 +77,7 @@ function App() {
 
   const sendChat = () => {
     const chatRef = push(chatListRef);
+
     set(chatRef, {
       user,
       message: msg,
@@ -86,7 +89,14 @@ function App() {
     setMsg("");
   };
 
-  console.log(chats);
+  // const deleteChat = () => {
+  //   const chatRef = chatListRef;
+  //   onChildRemoved(chatRef, (data) => {
+  //     data.key;
+  //   });
+  // };
+
+  // console.log(chats);
 
   return (
     <>
@@ -149,6 +159,7 @@ function App() {
                 <p className="chatbox ">
                   <strong>{c.user.name}:</strong>
                   <span>{c.message}</span>
+                  <span>🗑️</span>
                 </p>
               </div>
             ))}
