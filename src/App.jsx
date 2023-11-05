@@ -50,27 +50,28 @@ function App() {
     }
   };
 
-  // useEffect(() => {
-  //   onChildAdded(chatListRef, (data) => {
-  //     setChats((chats) => [...chats, data.val()]);
-  //     setTimeout(() => {
-  //       updateHeight();
-  //     }, 100);
-  //   });
-  // }, []);
-
   useEffect(() => {
-    onValue(chatListRef, (snapshot) => {
-      console.log(snapshot);
-      snapshot.forEach((childSnapshot) => {
-        console.log(childSnapshot.val());
-        setChats((chats) => [...chats, childSnapshot.val()]);
-        setTimeout(() => {
-          updateHeight();
-        }, 100);
-      });
+    onChildAdded(chatListRef, (data) => {
+      setChats((chats) => [...chats, data.val()]);
+      setTimeout(() => {
+        updateHeight();
+      }, 100);
     });
   }, []);
+
+  // useEffect(() => {
+  //   onValue(chatListRef, (snapshot) => {
+  //     console.log(snapshot);
+  //     snapshot.map((childSnapshot) => {
+  //       console.log(childSnapshot.val());
+  //       setChats((prevChats) => [...prevChats, childSnapshot.val()]);
+
+  //       setTimeout(() => {
+  //         updateHeight();
+  //       }, 100);
+  //     });
+  //   });
+  // }, []);
 
   const sendChat = () => {
     const chatRef = push(chatListRef);
@@ -85,7 +86,7 @@ function App() {
     setMsg("");
   };
 
-  // console.log(chats);
+  console.log(chats);
 
   return (
     <>
