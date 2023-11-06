@@ -5,7 +5,7 @@ import {
   push,
   ref,
   onChildAdded,
-  onValue,
+  remove,
   onChildRemoved,
 } from "firebase/database";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
@@ -52,28 +52,23 @@ function App() {
   };
 
   useEffect(() => {
-    onChildAdded(chatListRef, (data) => {
+    const unsubscribe = onChildAdded(chatListRef, (data) => {
       console.log(data.val(), data.key);
-      setChats((chats) => [...chats, data.val()]);
+      setChats((chats) => [...chats, { ...data.val(), id: data.key }]);
+
       setTimeout(() => {
         updateHeight();
       }, 100);
     });
+    return () => unsubscribe();
   }, []);
 
-  // useEffect(() => {
-  //   onValue(chatListRef, (snapshot) => {
-  //     console.log(snapshot);
-  //     snapshot.map((childSnapshot) => {
-  //       console.log(childSnapshot.val());
-  //       setChats((prevChats) => [...prevChats, childSnapshot.val()]);
-
-  //       setTimeout(() => {
-  //         updateHeight();
-  //       }, 100);
-  //     });
-  //   });
-  // }, []);
+  useEffect(() => {
+    const unsubscribe = onChildRemoved(chatListRef, (data) => {
+      setChats((chats) => chats.filter((chat) => chat.id !== data.key));
+    });
+    return () => unsubscribe();
+  }, []);
 
   const sendChat = () => {
     const chatRef = push(chatListRef);
@@ -89,12 +84,9 @@ function App() {
     setMsg("");
   };
 
-  // const deleteChat = () => {
-  //   const chatRef = chatListRef;
-  //   onChildRemoved(chatRef, (data) => {
-  //     data.key;
-  //   });
-  // };
+  const deleteChat = (id) => {
+    remove(ref(db, "chats/" + id));
+  };
 
   // console.log(chats);
 
@@ -159,7 +151,9 @@ function App() {
                 <p className="chatbox ">
                   <strong>{c.user.name}:</strong>
                   <span>{c.message}</span>
-                  <span>🗑️</span>
+                  {user.name === c.user.name ? (
+                    <span onClick={() => deleteChat(c.id)}>🗑️</span>
+                  ) : null}
                 </p>
               </div>
             ))}
