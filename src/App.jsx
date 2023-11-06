@@ -151,8 +151,8 @@ function App() {
                 } `}
               >
                 <p className="chatbox ">
-                  <strong>{c.user.name}:</strong>
-                  <span>{c.message}</span>
+                  <strong>{c.user.name}: </strong>
+                  <span className="pl-1">{c.message}</span>
                   {user.name === c.user.name ? (
                     <span onClick={() => deleteChat(c.id)}>🗑️</span>
                   ) : null}
