@@ -72,7 +72,9 @@ function App() {
 
   const sendChat = () => {
     const chatRef = push(chatListRef);
-
+    if(!msg.length){
+      return;
+    }
     set(chatRef, {
       user,
       message: msg,
@@ -167,10 +169,12 @@ function App() {
               type="text"
               placeholder="enter your message"
               onInput={(e) => setMsg(e.target.value)}
+              onKeyDown={(e)=> e.key === 'Enter'? sendChat() : null}
               value={msg}
             />
-            <button
-              className="bg-slate-500 text-sm text-white px-3 font-semibold uppercase"
+           
+            <button disabled={!!msg.length==0}
+              className="bg-slate-500 text-sm text-white px-3 font-semibold uppercase disabled:bg-slate-300 disabled:cursor-not-allowed"
               onClick={(e) => sendChat()}
             >
               Send
