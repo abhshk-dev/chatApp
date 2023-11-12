@@ -9,6 +9,8 @@ import {
   onChildRemoved,
 } from "firebase/database";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { Message } from './components';
+import { guessContentType } from './utils/getMessageType';
 
 function App() {
   const provider = new GoogleAuthProvider();
@@ -78,6 +80,7 @@ function App() {
     set(chatRef, {
       user,
       message: msg,
+      type: guessContentType(msg),
     });
 
     // const c = [...chats];
@@ -143,22 +146,7 @@ function App() {
       <div className="flex flex-col justify-between">
         {user.email ? (
           <div id="chat" className="chat-container ">
-            {chats.map((c, i) => (
-              <div
-                key={i}
-                className={`container ${
-                  c.user.email === user.email ? "me" : ""
-                } `}
-              >
-                <p className="chatbox ">
-                  <strong>{c.user.name}: </strong>
-                  <span className="pl-1">{c.message}</span>
-                  {user.name === c.user.name ? (
-                    <span onClick={() => deleteChat(c.id)}>🗑️</span>
-                  ) : null}
-                </p>
-              </div>
-            ))}
+            {chats.map(c => <Message {...c} isSelfMessage={c.user.email === user.email} key={c.id} />)}
           </div>
         ) : null}
         {/* Chat INPUT */}
