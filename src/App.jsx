@@ -9,8 +9,8 @@ import {
   onChildRemoved,
 } from "firebase/database";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import { Message } from './components';
-import { guessContentType } from './utils/getMessageType';
+import { Message } from "./components";
+import { guessContentType } from "./utils/getMessageType";
 
 function App() {
   const provider = new GoogleAuthProvider();
@@ -55,7 +55,7 @@ function App() {
 
   useEffect(() => {
     const unsubscribe = onChildAdded(chatListRef, (data) => {
-      console.log(data.val(), data.key);
+      // console.log(data.val(), data.key);
       setChats((chats) => [...chats, { ...data.val(), id: data.key }]);
 
       setTimeout(() => {
@@ -146,7 +146,13 @@ function App() {
       <div className="flex flex-col justify-between">
         {user.email ? (
           <div id="chat" className="chat-container ">
-            {chats.map(c => <Message {...c} isSelfMessage={c.user.email === user.email} key={c.id} />)}
+            {chats.map((c) => (
+              <Message
+                {...c}
+                isSelfMessage={c.user.email === user.email}
+                key={c.id}
+              />
+            ))}
           </div>
         ) : null}
         {/* Chat INPUT */}
