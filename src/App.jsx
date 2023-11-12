@@ -151,6 +151,8 @@ function App() {
                 {...c}
                 isSelfMessage={c.user.email === user.email}
                 key={c.id}
+                deleteChat={deleteChat}
+                id={c.id}
               />
             ))}
           </div>

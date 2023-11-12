@@ -26,7 +26,7 @@ const renderMessage = (message, type) => {
  * @example
  * <Message {...message} />
  */
-const Message = ({ message, type, user, isSelfMessage }) => {
+const Message = ({ message, type, user, isSelfMessage, deleteChat, id }) => {
   return (
     <div className={`container ${isSelfMessage ? "me" : ""}`}>
       <p className="chatbox">
