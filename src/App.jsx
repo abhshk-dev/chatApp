@@ -57,7 +57,7 @@ function App() {
     const unsubscribe = onChildAdded(chatListRef, (data) => {
       // console.log(data.val(), data.key);
       setChats((chats) => [...chats, { ...data.val(), id: data.key }]);
-
+      // alert("New Message");
       setTimeout(() => {
         updateHeight();
       }, 100);

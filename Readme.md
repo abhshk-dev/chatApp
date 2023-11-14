@@ -16,13 +16,12 @@ email:"moh@mohjiwada.com"
 # Functionalities to be achieved.
 
 a.) Delete message functionality using onChildRemoved and remove function of firebase.👆
-b.) Drop-Up on click of chat messages to be displayed with options such as Delete👆,React and Reply.
+b.) Drop-Up on click of chat messages to be displayed with options such as Delete👆,React and Reply. 🤞
 c.) React with emojis functionality ⌛
 d.) Reply functionality to be implemented ⌛
 e.) Emoji library to be added ⌛
 
-
-# Legend 
+# Legend
 
 👆 -> Done.
 🤞 -> Not Done.

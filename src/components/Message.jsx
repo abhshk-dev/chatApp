@@ -1,4 +1,5 @@
 import { guessContentType } from "../utils/getMessageType";
+import Menu from "./Menu";
 
 const renderMessage = (message, type) => {
   switch (type) {
@@ -32,7 +33,12 @@ const Message = ({ message, type, user, isSelfMessage, deleteChat, id }) => {
       <p className="chatbox">
         <strong>{user.name}: </strong>
         {renderMessage(message, type || guessContentType(message))}
-        {isSelfMessage ? <span onClick={() => deleteChat(id)}>🗑️</span> : null}
+        {isSelfMessage ? (
+          // <span className="cursor-pointer" onClick={() => deleteChat(id)}>
+          //   🗑️
+          // </span>
+          <Menu deleteChat={deleteChat} id={id} />
+        ) : null}
       </p>
     </div>
   );
