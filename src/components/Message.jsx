@@ -5,6 +5,8 @@ import Menu from "./Menu";
 const renderMessage = (message, type) => {
   switch (type) {
     // TODO: Handle image|gif type
+    case "image":
+      return <img className="w-full rounded-lg mt-4" src={message}  />
     case "link":
       return (
         <a
