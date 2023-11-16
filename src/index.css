@@ -15,8 +15,9 @@ body{
   margin: 5px 0;
   padding: 10px;
   border-radius: 8px;
-  background-color: cadetblue;
-  border: 1px solid #232323;
+  background-color: #debfd0;
+  position: relative;
+  max-width: 400px;
 }
 .container{
   display: flex;
@@ -26,11 +27,16 @@ body{
   flex-direction: row-reverse;
 }
 .me .chatbox{
-  background-color: blanchedalmond;
+  background-color: #72b692;
 }
 .chat-container{
-  height: 60vh;
-  overflow-y:scroll;
+  height: 63vh;
+  overflow-y:auto;
   border: 1px solid black;
+  background: #f3e7ee;
+  padding: 0 2rem;
+  max-width: 954px;
+  margin: auto;
+  width: 100%;
   
 }

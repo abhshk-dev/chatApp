@@ -81,6 +81,7 @@ function App() {
       user,
       message: msg,
       type: guessContentType(msg),
+      
     });
 
     // const c = [...chats];
@@ -143,7 +144,7 @@ function App() {
           User:<strong className="text-lg font-light">{user.name}</strong>
         </span>
       ) : null}
-      <div className="flex flex-col justify-between">
+      <div className="flex flex-col justify-between bg-[#11090d]">
         {user.email ? (
           <div id="chat" className="chat-container ">
             {chats.map((c) => (
@@ -159,11 +160,11 @@ function App() {
         ) : null}
         {/* Chat INPUT */}
         {user.email ? (
-          <div className="fixed bottom-1 w-full flex z-10">
+          <div className="max-w-[954px]  mx-auto bottom-1 w-full flex z-10">
             <input
               className="flex-grow p-4 border-2 border-slate-500"
               type="text"
-              placeholder="enter your message"
+              placeholder="Enter your message"
               onInput={(e) => setMsg(e.target.value)}
               onKeyDown={(e) => (e.key === "Enter" ? sendChat() : null)}
               value={msg}
@@ -171,7 +172,7 @@ function App() {
 
             <button
               disabled={!!msg.length == 0}
-              className="bg-slate-500 text-sm text-white px-3 font-semibold uppercase disabled:bg-slate-300 disabled:cursor-not-allowed"
+              className="bg-accent text-sm text-white px-3 font-semibold uppercase disabled:bg-slate-300 disabled:cursor-not-allowed"
               onClick={(e) => sendChat()}
             >
               Send

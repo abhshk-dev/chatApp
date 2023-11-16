@@ -1,4 +1,5 @@
 import { guessContentType } from "../utils/getMessageType";
+import { useState } from "react";
 import Menu from "./Menu";
 
 const renderMessage = (message, type) => {
@@ -9,7 +10,7 @@ const renderMessage = (message, type) => {
         <a
           href={message}
           target="_blank"
-          className="pl-1 underline text-blue-500"
+          className="pl-1 underline text-blue-600"
         >
           {message}
         </a>
@@ -28,18 +29,37 @@ const renderMessage = (message, type) => {
  * <Message {...message} />
  */
 const Message = ({ message, type, user, isSelfMessage, deleteChat, id }) => {
+  const [showMenu, setShowMenu] = useState(false);
+
+  const handleEnter = (e) => {
+    e.stopPropagation();
+    setShowMenu(true);
+  };
+
+  const handleLeave = (e) => {
+    e.stopPropagation();
+    setShowMenu(false);
+  };
   return (
     <div className={`container ${isSelfMessage ? "me" : ""}`}>
-      <p className="chatbox">
-        <strong>{user.name}: </strong>
+      <div
+        onMouseEnter={handleEnter}
+        onMouseLeave={handleLeave}
+        className="chatbox "
+      >
+        <strong className="text-[#11090d] font-semibold">{user.name}: </strong>
         {renderMessage(message, type || guessContentType(message))}
-        {isSelfMessage ? (
-          // <span className="cursor-pointer" onClick={() => deleteChat(id)}>
-          //   🗑️
-          // </span>
-          <Menu deleteChat={deleteChat} id={id} />
+
+        {/* {isSelfMessage ? (
+          <span className="cursor-pointer" onClick={() => deleteChat(id)}>
+            🗑️
+          </span>
+          ) : null} */}
+
+        {showMenu ? (
+          <Menu deleteChat={deleteChat} id={id} isSelfMessage={isSelfMessage} showMenu={showMenu} />
         ) : null}
-      </p>
+      </div>
     </div>
   );
 };
