@@ -42,8 +42,8 @@ function App() {
   const [user, setUser] = useState("");
   const [chats, setChats] = useState([]);
   const [msg, setMsg] = useState("");
-  const [reply,setReply]= useState(null);
-  
+  const [reply, setReply] = useState(null);
+
   const db = getDatabase();
   const chatListRef = ref(db, "chats");
 
@@ -82,7 +82,6 @@ function App() {
       user,
       message: msg,
       type: guessContentType(msg),
-      
     });
 
     // const c = [...chats];
@@ -99,7 +98,7 @@ function App() {
 
   return (
     <>
-      <div className=" text-center bg-slate-500  py-4 ">
+      <div className=" text-center bg-accent  py-4 max-w-[1024px] mx-auto">
         <h1 className="text-4xl font-semibold text-white">Chat App </h1>
       </div>
       {user.email ? null : (
@@ -107,7 +106,7 @@ function App() {
           onClick={(e) => {
             googleLogin();
           }}
-          className=" cursor-pointer flex items-center justify-center gap-6 max-w-[300px] lg:max-w-[450px] mt-[40%] lg:mt-[10%]  mx-auto border-[1px] border-gray-300 shadow-md rounded-md p-3"
+          className="bg-background cursor-pointer flex items-center justify-center gap-6 max-w-[300px] lg:max-w-[450px] mt-[40%] lg:mt-[10%]  mx-auto border-[1px] border-gray-300 shadow-md rounded-md p-3"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -135,16 +134,16 @@ function App() {
             ></path>
           </svg>
 
-          <button className="font-semibold text-[#232323] lg:text-lg ">
+          <button className="font-semibold  text-text lg:text-lg ">
             Sign up with Google
           </button>
         </div>
       )}
-      {user.email ? (
+      {/* {user.email ? (
         <span className="text-xl font-bold inline-block my-10">
           User:<strong className="text-lg font-light">{user.name}</strong>
         </span>
-      ) : null}
+      ) : null} */}
       <div className="flex flex-col justify-between bg-[#11090d]">
         {user.email ? (
           <div id="chat" className="chat-container ">
@@ -161,7 +160,7 @@ function App() {
         ) : null}
         {/* Chat INPUT */}
         {user.email ? (
-          <div className="max-w-[954px]  mx-auto bottom-1 w-full flex z-10">
+          <div className="max-w-[1024px]  mx-auto bottom-1 w-full flex z-10">
             <input
               className="flex-grow p-4 border-2 border-slate-500"
               type="text"

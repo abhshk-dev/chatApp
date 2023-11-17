@@ -8,10 +8,17 @@
   padding: 0;
 } */
 
-body{
+body {
   position: relative;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  background: #110;
 }
-.chatbox{
+#root {
+  flex: 0 1 70%;
+}
+.chatbox {
   margin: 5px 0;
   padding: 10px;
   border-radius: 8px;
@@ -19,24 +26,23 @@ body{
   position: relative;
   max-width: 400px;
 }
-.container{
+.container {
   display: flex;
   max-width: 100%;
 }
-.container.me{
+.container.me {
   flex-direction: row-reverse;
 }
-.me .chatbox{
+.me .chatbox {
   background-color: #72b692;
 }
-.chat-container{
+.chat-container {
   height: 63vh;
-  overflow-y:auto;
+  overflow-y: auto;
   border: 1px solid black;
   background: #f3e7ee;
   padding: 0 2rem;
-  max-width: 954px;
+  max-width: 1024px;
   margin: auto;
   width: 100%;
-  
 }
