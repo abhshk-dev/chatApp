@@ -5,6 +5,11 @@ const Menu = ({ deleteChat, id, isSelfMessage,showMenu }) => {
 
   const dropdown=useRef(null);
 
+
+  const handleReply=()=>{
+    console.log(id);
+  }
+
   useEffect(()=>{
     if (!dropdown.current) return
         let spaceAbove=dropdown.current.getBoundingClientRect().top;
@@ -12,8 +17,10 @@ const Menu = ({ deleteChat, id, isSelfMessage,showMenu }) => {
         let el =document.getElementById('chat');
         
         const spaceBelow = el.offsetHeight - dropdown.current.getBoundingClientRect().bottom;
-        
-
+        // console.log(spaceAbove);
+        // console.log(el.offsetHeight)
+        // console.log(dropdown.current.getBoundingClientRect().bottom)
+        // console.log(`dropdown current height ${dropdown.current.offsetHeight}`)
         if (spaceBelow < dropdown.current.clientHeight && spaceAbove > spaceBelow) {
           // Display above
           dropdown.current.style.bottom = "100%";
@@ -31,7 +38,7 @@ const Menu = ({ deleteChat, id, isSelfMessage,showMenu }) => {
       
         <ul ref={dropdown} className="dropdown bg-[#f3e7ee] absolute rounded-md shadow-2xl border border-[#11090d] border-opacity-20 right-2 bottom-11 z-10  py-2 min-w-[120px] flex justify-center items-start flex-col">
           <li className="hover:bg-slate-500 hover:text-white w-full hover:transition-all">
-            <button className="px-5">Reply</button>
+            <button className="px-5" onClick={handleReply} >Reply</button>
           </li>
           <li className="hover:bg-slate-500 hover:text-white w-full hover:transition-all">
             <button className="px-5">React</button>

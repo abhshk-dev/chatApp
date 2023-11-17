@@ -42,7 +42,8 @@ function App() {
   const [user, setUser] = useState("");
   const [chats, setChats] = useState([]);
   const [msg, setMsg] = useState("");
-
+  const [reply,setReply]= useState(null);
+  
   const db = getDatabase();
   const chatListRef = ref(db, "chats");
 
@@ -172,7 +173,7 @@ function App() {
 
             <button
               disabled={!!msg.length == 0}
-              className="bg-accent text-sm text-white px-3 font-semibold uppercase disabled:bg-slate-300 disabled:cursor-not-allowed"
+              className="bg-accent   text-sm text-white px-3 font-semibold uppercase disabled:bg-slate-300 disabled:cursor-not-allowed"
               onClick={(e) => sendChat()}
             >
               Send
