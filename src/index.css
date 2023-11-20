@@ -39,10 +39,16 @@ body {
 .chat-container {
   height: 63vh;
   overflow-y: auto;
-  border: 1px solid black;
   background: #f3e7ee;
   padding: 0 2rem;
   max-width: 1024px;
   margin: auto;
   width: 100%;
+}
+
+.line-clamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }

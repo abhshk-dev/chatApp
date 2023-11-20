@@ -1,14 +1,11 @@
 import React, { useEffect, useRef } from "react";
 
 
-const Menu = ({ deleteChat, id, isSelfMessage,showMenu }) => {
+const Menu = ({ deleteChat, id, isSelfMessage,showMenu,handleReply }) => {
 
   const dropdown=useRef(null);
 
 
-  const handleReply=()=>{
-    console.log(id);
-  }
 
   useEffect(()=>{
     if (!dropdown.current) return
@@ -38,14 +35,14 @@ const Menu = ({ deleteChat, id, isSelfMessage,showMenu }) => {
       
         <ul ref={dropdown} className="dropdown bg-[#f3e7ee] absolute rounded-md shadow-2xl border border-[#11090d] border-opacity-20 right-2 bottom-11 z-10  py-2 min-w-[120px] flex justify-center items-start flex-col">
           <li className="hover:bg-slate-500 hover:text-white w-full hover:transition-all">
-            <button className="px-5" onClick={handleReply} >Reply</button>
+            <button className="px-5 w-full" onClick={()=>handleReply(id)} >Reply</button>
           </li>
           <li className="hover:bg-slate-500 hover:text-white w-full hover:transition-all">
-            <button className="px-5">React</button>
+            <button className="px-5 w-full">React</button>
           </li>
           {isSelfMessage ? (
             <li onClick={()=>deleteChat(id)} className="hover:bg-slate-500 hover:text-white w-full hover:transition-all">
-              <button className="px-5">Delete</button>
+              <button className="px-5 w-full">Delete</button>
             </li>
           ) : null}
         </ul>
