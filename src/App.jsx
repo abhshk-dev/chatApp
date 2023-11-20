@@ -1,4 +1,4 @@
-import { useEffect, useState,useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import Reply from "./components/Reply";
 import {
   getDatabase,
@@ -48,9 +48,8 @@ function App() {
   const [chats, setChats] = useState([]);
   const [msg, setMsg] = useState("");
   const [reply, setReply] = useState(null);
-  const inputChatRef =useRef(null);
+  const inputChatRef = useRef(null);
 
-  
   const replyingTo = getChatByID(chats, reply);
   console.log(replyingTo);
   const db = getDatabase();
@@ -104,6 +103,7 @@ function App() {
   const handleReply = (id) => {
     console.log(id);
     setReply(id);
+    inputChatRef.current?.focus()
   };
 
   const deleteChat = (id) => {
@@ -176,6 +176,7 @@ function App() {
                 id={c.id}
                 handleReply={handleReply}
                 repliedTo={getChatByID(chats, c.repliedTo)}
+              
               />
             ))}
           </div>
@@ -187,11 +188,16 @@ function App() {
           }`}
         >
           {reply ? (
-            <Reply replyingTo={replyingTo} cancelReply={cancelReply} isSelfMessage={replyingTo.user.email === user.email} />
+            <Reply
+              replyingTo={replyingTo}
+              cancelReply={cancelReply}
+              isSelfMessage={replyingTo.user.email === user.email}
+            />
           ) : null}
           {user.email ? (
             <div className="max-w-[1024px]  mx-auto bottom-1 w-full flex z-10 gap-4">
               <input
+                ref={inputChatRef}
                 className="flex-grow p-4 py-2 rounded-md border-2 border-slate-500"
                 type="text"
                 placeholder="Enter your message"

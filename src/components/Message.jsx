@@ -88,6 +88,7 @@ const Message = ({
             isSelfMessage={isSelfMessage}
             showMenu={showMenu}
             handleReply={handleReply}
+            
           />
         ) : null}
       </div>
