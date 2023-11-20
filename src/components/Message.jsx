@@ -70,7 +70,7 @@ const Message = ({
             </div> 
           </div>
         ) : null}
-        <strong className="text-[#11090d] font-semibold">{user.name}: </strong>
+        <strong className="text-text opacity-90 font-semibold">{user.name}: </strong>
         {renderMessage(message, type || guessContentType(message))}
 
         {/* {isSelfMessage ? (
