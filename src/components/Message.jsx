@@ -6,7 +6,8 @@ const renderMessage = (message, type) => {
   switch (type) {
     // TODO: Handle image|gif type
     case "image":
-      return <img className="w-full rounded-lg mt-4" src={message}  />
+      
+      return <div className="max-w-[200px] max-h-[200px] bg-text flex mt-4 rounded-md"><img className="w-full object-contain  rounded-lg " src={message}  /></div>  
     case "link":
       return (
         <a
