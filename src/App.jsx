@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState,useRef } from "react";
 import Reply from "./components/Reply";
 import {
   getDatabase,
@@ -48,7 +48,9 @@ function App() {
   const [chats, setChats] = useState([]);
   const [msg, setMsg] = useState("");
   const [reply, setReply] = useState(null);
+  const inputChatRef =useRef(null);
 
+  
   const replyingTo = getChatByID(chats, reply);
   console.log(replyingTo);
   const db = getDatabase();

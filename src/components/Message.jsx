@@ -7,7 +7,7 @@ const renderMessage = (message, type, repliedMessage = false) => {
     // TODO: Handle image|gif type
     case "image":
       return (
-        <div className={`${repliedMessage ? 'max-w-[60px] max-h-[60px] mt-0 ml-2 ' : 'max-w-[200px] max-h-[200px]'} bg-text flex mt-4 rounded-md`} >
+        <div className={`${repliedMessage ? 'max-w-[60px] max-h-[60px] mt-0 ml-2 ' : 'max-w-[200px] max-h-[200px] mt-4'} bg-text flex  rounded-md`} >
           <img className={`w-full object-contain ${repliedMessage ? 'rounded-none':'rounded-md'} `}  src={message} />
         </div>
       );
