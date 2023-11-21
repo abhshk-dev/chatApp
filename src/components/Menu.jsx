@@ -1,11 +1,11 @@
-import React, { useEffect, useRef } from "react";
+import React, { useState,useEffect, useRef } from "react";
 
 
-const Menu = ({ deleteChat, id, isSelfMessage,showMenu,handleReply }) => {
+const Menu = ({ deleteChat, id, isSelfMessage,showMenu,handleReply,handleReact }) => {
 
   const dropdown=useRef(null);
 
-
+ 
 
   useEffect(()=>{
     if (!dropdown.current) return
@@ -33,12 +33,12 @@ const Menu = ({ deleteChat, id, isSelfMessage,showMenu,handleReply }) => {
   return (
     <>
       
-        <ul ref={dropdown} className="dropdown bg-[#f3e7ee] absolute rounded-md shadow-2xl border border-[#11090d] border-opacity-20 right-2 bottom-11 z-10  py-2 min-w-[120px] flex justify-center items-start flex-col">
+        <ul onClick={(e)=>e.stopPropagation()} ref={dropdown} className="dropdown bg-[#f3e7ee] absolute rounded-md shadow-2xl border border-[#11090d] border-opacity-20 right-2 bottom-11 z-10  py-2 min-w-[120px] flex justify-center items-start flex-col">
           <li className="hover:bg-slate-500 hover:text-white w-full hover:transition-all">
             <button className="px-5 w-full" onClick={()=>handleReply(id)} >Reply</button>
           </li>
           <li className="hover:bg-slate-500 hover:text-white w-full hover:transition-all">
-            <button className="px-5 w-full">React</button>
+            <button className="px-5 w-full" onClick={()=>handleReact()}>React</button>
           </li>
           {isSelfMessage ? (
             <li onClick={()=>deleteChat(id)} className="hover:bg-slate-500 hover:text-white w-full hover:transition-all">
@@ -51,3 +51,4 @@ const Menu = ({ deleteChat, id, isSelfMessage,showMenu,handleReply }) => {
   );
 };
 export default Menu;
+

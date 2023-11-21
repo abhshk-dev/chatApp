@@ -48,10 +48,13 @@ function App() {
   const [chats, setChats] = useState([]);
   const [msg, setMsg] = useState("");
   const [reply, setReply] = useState(null);
+ 
+  
   const inputChatRef = useRef(null);
 
   const replyingTo = getChatByID(chats, reply);
   console.log(replyingTo);
+
   const db = getDatabase();
   const chatListRef = ref(db, "chats");
 
@@ -61,6 +64,8 @@ function App() {
       el.scrollTop = el.scrollHeight;
     }
   };
+
+ 
 
   useEffect(() => {
     const unsubscribe = onChildAdded(chatListRef, (data) => {
@@ -93,9 +98,6 @@ function App() {
       repliedTo: reply,
     });
 
-    // const c = [...chats];
-    // c.push({ name, message: msg });
-    // setChats(c);
     setMsg("");
     setReply(null);
   };
@@ -166,7 +168,7 @@ function App() {
       ) : null} */}
       <div className="flex flex-col justify-between bg-[#11090d]">
         {user.email ? (
-          <div id="chat" className="chat-container ">
+          <div id="chat"  className="chat-container ">
             {chats.map((c) => (
               <Message
                 {...c}
@@ -176,7 +178,7 @@ function App() {
                 id={c.id}
                 handleReply={handleReply}
                 repliedTo={getChatByID(chats, c.repliedTo)}
-              
+                
               />
             ))}
           </div>
