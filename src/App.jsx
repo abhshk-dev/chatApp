@@ -48,8 +48,7 @@ function App() {
   const [chats, setChats] = useState([]);
   const [msg, setMsg] = useState("");
   const [reply, setReply] = useState(null);
- 
-  
+
   const inputChatRef = useRef(null);
 
   const replyingTo = getChatByID(chats, reply);
@@ -64,8 +63,6 @@ function App() {
       el.scrollTop = el.scrollHeight;
     }
   };
-
- 
 
   useEffect(() => {
     const unsubscribe = onChildAdded(chatListRef, (data) => {
@@ -105,7 +102,7 @@ function App() {
   const handleReply = (id) => {
     console.log(id);
     setReply(id);
-    inputChatRef.current?.focus()
+    inputChatRef.current?.focus();
   };
 
   const deleteChat = (id) => {
@@ -168,11 +165,7 @@ function App() {
       ) : null} */}
       <div className="flex flex-col justify-between bg-[#11090d]">
         {user.email ? (
-<<<<<<< HEAD
-          <div id="chat" className="chat-container">
-=======
-          <div id="chat"  className="chat-container ">
->>>>>>> 99d631b5bc89b95c90f81e1fe3456015f80cd4a5
+          <div id="chat" className="chat-container ">
             {chats.map((c) => (
               <Message
                 {...c}
@@ -182,7 +175,6 @@ function App() {
                 id={c.id}
                 handleReply={handleReply}
                 repliedTo={getChatByID(chats, c.repliedTo)}
-                
               />
             ))}
           </div>
