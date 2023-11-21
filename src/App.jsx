@@ -181,7 +181,7 @@ function App() {
         ) : null}
         {/* Chat INPUT */}
         <div
-          className={`pr-12 pl-8 py-2 transition-colors ease-out duration-150 ${
+          className={`pr-8 pl-8 py-2 transition-colors ease-out duration-150 max-w-[1024px] w-full  mx-auto ${
             replyingTo ? "bg-white" : "bg-background"
           }`}
         >
@@ -193,7 +193,7 @@ function App() {
             />
           ) : null}
           {user.email ? (
-            <div className="max-w-[1024px]  mx-auto bottom-1 w-full flex z-10 gap-4">
+            <div className=" bottom-1 w-full flex z-10 gap-4">
               <input
                 ref={inputChatRef}
                 className="flex-grow p-4 py-2 rounded-md border-2 border-slate-500"
