@@ -26,3 +26,10 @@ e.) Emoji library to be added ⌛
 👆 -> Done.
 🤞 -> Not Done.
 ⌛ -> Pending.
+
+1.) Send and recieve Messages.
+2.) User login , authentication.
+3.) Reply, React and Delete.
+4.) Anonymous chat.
+5.) Support for links,images and gifs.
+6.) In built gif search and send feature.

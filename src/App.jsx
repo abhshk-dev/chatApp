@@ -98,7 +98,7 @@ function App() {
 
   return (
     <>
-      <div className=" text-center bg-accent  py-4 max-w-[1024px] mx-auto">
+      <div className=" text-center bg-primary  py-4 max-w-[1024px] mx-auto">
         <h1 className="text-4xl font-semibold text-white">Chat App </h1>
       </div>
       {user.email ? null : (
@@ -146,7 +146,7 @@ function App() {
       ) : null} */}
       <div className="flex flex-col justify-between bg-[#11090d]">
         {user.email ? (
-          <div id="chat" className="chat-container ">
+          <div id="chat" className="chat-container">
             {chats.map((c) => (
               <Message
                 {...c}
