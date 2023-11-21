@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import Reply from "./components/Reply";
 import {
   getDatabase,
   set,
@@ -11,6 +12,10 @@ import {
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { Message } from "./components";
 import { guessContentType } from "./utils/getMessageType";
+
+function getChatByID(chats, id) {
+  return Object.values(chats).find((chat) => chat.id === id);
+}
 
 function App() {
   const provider = new GoogleAuthProvider();
@@ -43,6 +48,12 @@ function App() {
   const [chats, setChats] = useState([]);
   const [msg, setMsg] = useState("");
   const [reply, setReply] = useState(null);
+ 
+  
+  const inputChatRef = useRef(null);
+
+  const replyingTo = getChatByID(chats, reply);
+  console.log(replyingTo);
 
   const db = getDatabase();
   const chatListRef = ref(db, "chats");
@@ -53,6 +64,8 @@ function App() {
       el.scrollTop = el.scrollHeight;
     }
   };
+
+ 
 
   useEffect(() => {
     const unsubscribe = onChildAdded(chatListRef, (data) => {
@@ -82,16 +95,25 @@ function App() {
       user,
       message: msg,
       type: guessContentType(msg),
+      repliedTo: reply,
     });
 
-    // const c = [...chats];
-    // c.push({ name, message: msg });
-    // setChats(c);
     setMsg("");
+    setReply(null);
+  };
+
+  const handleReply = (id) => {
+    console.log(id);
+    setReply(id);
+    inputChatRef.current?.focus()
   };
 
   const deleteChat = (id) => {
     remove(ref(db, "chats/" + id));
+  };
+
+  const cancelReply = () => {
+    setReply(null);
   };
 
   // console.log(chats);
@@ -146,7 +168,11 @@ function App() {
       ) : null} */}
       <div className="flex flex-col justify-between bg-[#11090d]">
         {user.email ? (
+<<<<<<< HEAD
           <div id="chat" className="chat-container">
+=======
+          <div id="chat"  className="chat-container ">
+>>>>>>> 99d631b5bc89b95c90f81e1fe3456015f80cd4a5
             {chats.map((c) => (
               <Message
                 {...c}
@@ -154,31 +180,48 @@ function App() {
                 key={c.id}
                 deleteChat={deleteChat}
                 id={c.id}
+                handleReply={handleReply}
+                repliedTo={getChatByID(chats, c.repliedTo)}
+                
               />
             ))}
           </div>
         ) : null}
         {/* Chat INPUT */}
-        {user.email ? (
-          <div className="max-w-[1024px]  mx-auto bottom-1 w-full flex z-10">
-            <input
-              className="flex-grow p-4 border-2 border-slate-500"
-              type="text"
-              placeholder="Enter your message"
-              onInput={(e) => setMsg(e.target.value)}
-              onKeyDown={(e) => (e.key === "Enter" ? sendChat() : null)}
-              value={msg}
+        <div
+          className={`pr-12 pl-8 py-2 transition-colors ease-out duration-150 ${
+            replyingTo ? "bg-white" : "bg-background"
+          }`}
+        >
+          {reply ? (
+            <Reply
+              replyingTo={replyingTo}
+              cancelReply={cancelReply}
+              isSelfMessage={replyingTo.user.email === user.email}
             />
+          ) : null}
+          {user.email ? (
+            <div className="max-w-[1024px]  mx-auto bottom-1 w-full flex z-10 gap-4">
+              <input
+                ref={inputChatRef}
+                className="flex-grow p-4 py-2 rounded-md border-2 border-slate-500"
+                type="text"
+                placeholder="Enter your message"
+                onInput={(e) => setMsg(e.target.value)}
+                onKeyDown={(e) => (e.key === "Enter" ? sendChat() : null)}
+                value={msg}
+              />
 
-            <button
-              disabled={!!msg.length == 0}
-              className="bg-accent   text-sm text-white px-3 font-semibold uppercase disabled:bg-slate-300 disabled:cursor-not-allowed"
-              onClick={(e) => sendChat()}
-            >
-              Send
-            </button>
-          </div>
-        ) : null}
+              <button
+                disabled={!!msg.length == 0}
+                className="bg-accent rounded-md  text-sm text-white px-3 font-semibold uppercase disabled:bg-slate-300 disabled:cursor-not-allowed"
+                onClick={(e) => sendChat()}
+              >
+                Send
+              </button>
+            </div>
+          ) : null}
+        </div>
       </div>
     </>
   );
