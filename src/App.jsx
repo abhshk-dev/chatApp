@@ -48,8 +48,7 @@ function App() {
   const [chats, setChats] = useState([]);
   const [msg, setMsg] = useState("");
   const [reply, setReply] = useState(null);
- 
-  
+
   const inputChatRef = useRef(null);
 
   const replyingTo = getChatByID(chats, reply);
@@ -64,8 +63,6 @@ function App() {
       el.scrollTop = el.scrollHeight;
     }
   };
-
- 
 
   useEffect(() => {
     const unsubscribe = onChildAdded(chatListRef, (data) => {
@@ -105,7 +102,7 @@ function App() {
   const handleReply = (id) => {
     console.log(id);
     setReply(id);
-    inputChatRef.current?.focus()
+    inputChatRef.current?.focus();
   };
 
   const deleteChat = (id) => {
@@ -120,7 +117,7 @@ function App() {
 
   return (
     <>
-      <div className=" text-center bg-accent  py-4 max-w-[1024px] mx-auto">
+      <div className=" text-center bg-primary  py-4 max-w-[1024px] mx-auto">
         <h1 className="text-4xl font-semibold text-white">Chat App </h1>
       </div>
       {user.email ? null : (
@@ -168,7 +165,7 @@ function App() {
       ) : null} */}
       <div className="flex flex-col justify-between bg-[#11090d]">
         {user.email ? (
-          <div id="chat"  className="chat-container ">
+          <div id="chat" className="chat-container ">
             {chats.map((c) => (
               <Message
                 {...c}
@@ -178,14 +175,13 @@ function App() {
                 id={c.id}
                 handleReply={handleReply}
                 repliedTo={getChatByID(chats, c.repliedTo)}
-                
               />
             ))}
           </div>
         ) : null}
         {/* Chat INPUT */}
         <div
-          className={`pr-12 pl-8 py-2 transition-colors ease-out duration-150 ${
+          className={`pr-8 pl-8 py-2 transition-colors ease-out duration-150 max-w-[1024px] w-full  mx-auto ${
             replyingTo ? "bg-white" : "bg-background"
           }`}
         >
@@ -197,7 +193,7 @@ function App() {
             />
           ) : null}
           {user.email ? (
-            <div className="max-w-[1024px]  mx-auto bottom-1 w-full flex z-10 gap-4">
+            <div className=" bottom-1 w-full flex z-10 gap-4">
               <input
                 ref={inputChatRef}
                 className="flex-grow p-4 py-2 rounded-md border-2 border-slate-500"
