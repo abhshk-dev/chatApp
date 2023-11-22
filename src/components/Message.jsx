@@ -66,6 +66,7 @@ const Message = ({
 }) => {
   const [showMenu, setShowMenu] = useState(false);
   const [emojiMenu, setEmojiMenu] = useState(false);
+  const [reaction,setReaction] = useState([]);
   const messageRef= useRef(null);
 
   
