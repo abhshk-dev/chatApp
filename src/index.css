@@ -15,6 +15,7 @@ body {
   display: flex;
   justify-content: center;
   background: #110;
+  overflow: hidden;
 }
 #root {
   flex: 0 1 70%;
@@ -38,10 +39,11 @@ body {
   background-color: #72b692;
 }
 .chat-container {
-  height: 70vh;
+  height: 90dvh;
   overflow-y: auto;
   background: #f3e7ee;
-  padding: 0 2rem;
+  /* padding: 0 2rem;
+  padding-bottom: 64px; */
   max-width: 1024px;
   margin: auto;
   width: 100%;

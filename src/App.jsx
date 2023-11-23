@@ -163,9 +163,9 @@ function App() {
           User:<strong className="text-lg font-light">{user.name}</strong>
         </span>
       ) : null} */}
-      <div className="flex flex-col justify-between bg-[#11090d]">
+      <div className="flex flex-col justify-between bg-[#11090d] relative">
         {user.email ? (
-          <div id="chat" className="chat-container ">
+          <div id="chat" className="chat-container px-8 pb-16 ">
             {chats.map((c) => (
               <Message
                 {...c}
@@ -181,7 +181,7 @@ function App() {
         ) : null}
         {/* Chat INPUT */}
         <div
-          className={`pr-8 pl-8 py-2 transition-colors ease-out duration-150 max-w-[1024px] w-full  mx-auto ${
+          className={`pr-8 pl-8 py-2 transition-colors ease-out duration-150 max-w-[1024px] w-full absolute bottom-0  mx-auto ${
             replyingTo ? "bg-white" : "bg-background"
           }`}
         >
