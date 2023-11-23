@@ -195,6 +195,7 @@ function App() {
           {user.email ? (
             <div className=" bottom-1 w-full flex z-10 gap-4">
               <input
+              spellCheck={false}
                 ref={inputChatRef}
                 className="flex-grow p-4 py-2 rounded-md border-2 border-slate-500"
                 type="text"

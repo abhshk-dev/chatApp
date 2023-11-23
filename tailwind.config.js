@@ -10,9 +10,7 @@ export default {
         secondary: "#debfd0",
         accent: "#478a66",
       },
-      backgroundImage: {
-        "chat-bg": "url('./src/images/bgChat.jpg')",
-      },
+     
     },
   },
   plugins: [],
