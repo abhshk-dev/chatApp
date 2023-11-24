@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef,lazy,Suspense } from "react";
-
+import { guessContentType } from "../utils/getMessageType";
 
 const Message = lazy(() => import("./Message")); 
 const Reply = lazy(() => import("./Reply")); 
