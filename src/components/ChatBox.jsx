@@ -1,9 +1,9 @@
-import { useEffect, useState, useRef } from "react";
-import { useLocation } from "wouter";
+import { useEffect, useState, useRef,lazy,Suspense } from "react";
 
-import Message from "./Message"
 
-import Reply from "./Reply";
+const Message = lazy(() => import("./Message")); 
+const Reply = lazy(() => import("./Reply")); 
+
 import {
     getDatabase,
     set,
