@@ -35,7 +35,7 @@ const Menu = ({ deleteChat, id, isSelfMessage,showMenu,handleReply,handleReact }
       
         <ul onClick={(e)=>e.stopPropagation()} ref={dropdown} className="dropdown bg-[#f3e7ee] absolute rounded-md shadow-2xl border border-[#11090d] border-opacity-20 right-2 bottom-11 z-10  py-2 min-w-[120px] flex justify-center items-start flex-col">
           <li className="hover:bg-slate-500 hover:text-white w-full hover:transition-all">
-            <button className="px-5 w-full" onClick={()=>handleReply(id)} >Reply</button>
+            <button className="px-5 w-full" onClick={()=>handleReply(id) } >Reply</button>
           </li>
           <li className="hover:bg-slate-500 hover:text-white w-full hover:transition-all">
             <button className="px-5 w-full" onClick={()=>handleReact()}>React</button>

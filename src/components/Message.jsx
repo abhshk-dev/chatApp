@@ -38,8 +38,8 @@ const renderMessage = (message, type, repliedMessage = false) => {
       return (
         <span
           className={`${
-            repliedMessage ? " p-1 px-3 opacity-80 line-clamp ml-2" : "pl-1"
-          }`}
+            repliedMessage ? " p-1 px-3 opacity-80 line-clamp ml-2" : "pl-1" 
+           } break-words`}
         >
           {message}
         </span>
