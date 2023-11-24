@@ -35,7 +35,6 @@ const Menu = ({
 
   return (
     <>
-<<<<<<< HEAD
       <ul
         onClick={(e) => e.stopPropagation()}
         ref={dropdown}
@@ -57,12 +56,6 @@ const Menu = ({
             className="hover:bg-slate-500 hover:text-white w-full hover:transition-all"
           >
             <button className="px-5 w-full">Delete</button>
-=======
-      
-        <ul onClick={(e)=>e.stopPropagation()} ref={dropdown} className="dropdown bg-[#f3e7ee] absolute rounded-md shadow-2xl border border-[#11090d] border-opacity-20 right-2 bottom-11 z-10  py-2 min-w-[120px] flex justify-center items-start flex-col">
-          <li className="hover:bg-slate-500 hover:text-white w-full hover:transition-all">
-            <button className="px-5 w-full" onClick={()=>handleReply(id) } >Reply</button>
->>>>>>> dbceb03f70202d74afde7aaff9964f52e20098d8
           </li>
         ) : null}
       </ul>

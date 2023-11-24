@@ -1,29 +1,28 @@
-import { useEffect, useState, useRef,lazy,Suspense } from "react";
+import { useEffect, useState, useRef, lazy, Suspense } from "react";
 import { guessContentType } from "../utils/getMessageType";
 
-const Message = lazy(() => import("./Message")); 
-const Reply = lazy(() => import("./Reply")); 
+const Message = lazy(() => import("./Message"));
+const Reply = lazy(() => import("./Reply"));
 
 import {
-    getDatabase,
-    set,
-    push,
-    ref,
-    onChildAdded,
-    remove,
-    onChildRemoved,
-  } from "firebase/database";
-  
+  getDatabase,
+  set,
+  push,
+  ref,
+  onChildAdded,
+  remove,
+  onChildRemoved,
+} from "firebase/database";
+
 function getChatByID(chats, id) {
   return Object.values(chats).find((chat) => chat.id === id);
 }
 
-export default function ChatBox({user}) {
-
+export default function ChatBox({ user }) {
   const [chats, setChats] = useState([]);
   const [msg, setMsg] = useState("");
   const [reply, setReply] = useState(null);
-  
+
   const inputChatRef = useRef(null);
 
   const replyingTo = getChatByID(chats, reply);
@@ -107,7 +106,7 @@ export default function ChatBox({user}) {
       ) : null}
       {/* Chat INPUT */}
       <div
-        className={`pr-8 pl-8 py-2 transition-colors ease-out duration-150 max-w-[1024px] w-full absolute bottom-0  mx-auto ${
+        className={`pr-8 pl-8 py-2 transition-colors ease-out duration-150 max-w-[1024px] w-full absolute bottom-0 right-0 left-0  mx-auto ${
           replyingTo ? "bg-white" : "bg-background"
         }`}
       >
