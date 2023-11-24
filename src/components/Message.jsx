@@ -38,8 +38,8 @@ const renderMessage = (message, type, repliedMessage = false) => {
       return (
         <span
           className={`${
-            repliedMessage ? " p-1 px-3 opacity-80 line-clamp ml-2" : "pl-1"
-          }`}
+            repliedMessage ? " p-1 px-3 opacity-80 line-clamp ml-2" : "pl-1" 
+           } break-words`}
         >
           {message}
         </span>
@@ -66,6 +66,7 @@ const Message = ({
 }) => {
   const [showMenu, setShowMenu] = useState(false);
   const [emojiMenu, setEmojiMenu] = useState(false);
+  const [reaction,setReaction] = useState([]);
   const messageRef= useRef(null);
 
   

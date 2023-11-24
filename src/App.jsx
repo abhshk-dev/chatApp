@@ -1,126 +1,70 @@
-import { useEffect, useState, useRef } from "react";
-import Reply from "./components/Reply";
-import {
-  getDatabase,
-  set,
-  push,
-  ref,
-  onChildAdded,
-  remove,
-  onChildRemoved,
-} from "firebase/database";
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import { Message } from "./components";
-import { guessContentType } from "./utils/getMessageType";
+import { Route } from "wouter";
+import { useEffect, useState, lazy, Suspense } from "react";
+import useLocation from "wouter/use-location";
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 
-function getChatByID(chats, id) {
-  return Object.values(chats).find((chat) => chat.id === id);
-}
+const SignupPage = lazy(() => import("./components/SignupPage"));
+const ChatBox = lazy(() => import("./components/ChatBox"));
 
 function App() {
-  const provider = new GoogleAuthProvider();
+  const [user, setUser] = useState("");
+  const [location, setLocation] = useLocation();
+  // console.log(chats);
   const auth = getAuth();
 
-  const googleLogin = () => {
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential.accessToken;
-        // The signed-in user info.
-        const user = result.user;
-        setUser({ name: result.user.displayName, email: result.user.email });
-        console.log(token, user);
-      })
-      .catch((error) => {
-        // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // The email of the user's account used.
-        const email = error.customData.email;
-        // The AuthCredential type that was used.
-        const credential = GoogleAuthProvider.credentialFromError(error);
-        // ...
-      });
-  };
-
-  const [user, setUser] = useState("");
-  const [chats, setChats] = useState([]);
-  const [msg, setMsg] = useState("");
-  const [reply, setReply] = useState(null);
-
-  const inputChatRef = useRef(null);
-
-  const replyingTo = getChatByID(chats, reply);
-  console.log(replyingTo);
-
-  const db = getDatabase();
-  const chatListRef = ref(db, "chats");
-
-  const updateHeight = () => {
-    const el = document.getElementById("chat");
-    if (el) {
-      el.scrollTop = el.scrollHeight;
-    }
-  };
-
   useEffect(() => {
-    const unsubscribe = onChildAdded(chatListRef, (data) => {
-      // console.log(data.val(), data.key);
-      setChats((chats) => [...chats, { ...data.val(), id: data.key }]);
-      // alert("New Message");
-      setTimeout(() => {
-        updateHeight();
-      }, 100);
+   const unsubscribe= onAuthStateChanged(auth, (user) => {
+      
+      if (user) {
+        // User is signed in, see docs for a list of available properties
+        // https://firebase.google.com/docs/reference/js/auth.user
+        // const uid = user.uid;
+        setUser({ name: user.displayName, email: user.email });
+        setLocation("/");
+      } else {
+        // User is signed out
+        // .
+        setLocation("/signin");
+        setUser("");
+      }
     });
-    return () => unsubscribe();
-  }, []);
-
-  useEffect(() => {
-    const unsubscribe = onChildRemoved(chatListRef, (data) => {
-      setChats((chats) => chats.filter((chat) => chat.id !== data.key));
-    });
-    return () => unsubscribe();
-  }, []);
-
-  const sendChat = () => {
-    const chatRef = push(chatListRef);
-    if (!msg.length) {
-      return;
-    }
-    set(chatRef, {
-      user,
-      message: msg,
-      type: guessContentType(msg),
-      repliedTo: reply,
-    });
-
-    setMsg("");
-    setReply(null);
-  };
-
-  const handleReply = (id) => {
-    console.log(id);
-    setReply(id);
-    inputChatRef.current?.focus();
-  };
-
-  const deleteChat = (id) => {
-    remove(ref(db, "chats/" + id));
-  };
-
-  const cancelReply = () => {
-    setReply(null);
-  };
-
-  // console.log(chats);
+    return ()=>unsubscribe();
+  }
+  , []);
 
   return (
     <>
-      <div className=" text-center bg-primary  py-4 max-w-[1024px] mx-auto">
+      <div className=" flex justify-between items-center text-center bg-primary px-8  py-4 max-w-[1024px] mx-auto">
         <h1 className="text-4xl font-semibold text-white">Chat App </h1>
+        {user && (
+          <button
+            className="rounded-md p-2 bg-background bg-opacity-90"
+            onClick={() => signOut(auth)}
+          >
+            {/* Log out button */}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="28px"
+              height="28px"
+              viewBox="0 -0.5 25 25"
+              fill="none"
+            >
+              <path
+                d="M7.04401 9.53165C7.33763 9.23949 7.33881 8.76462 7.04665 8.47099C6.75449 8.17737 6.27962 8.17619 5.98599 8.46835L7.04401 9.53165ZM2.97099 11.4683C2.67737 11.7605 2.67619 12.2354 2.96835 12.529C3.26051 12.8226 3.73538 12.8238 4.02901 12.5317L2.97099 11.4683ZM4.02901 11.4683C3.73538 11.1762 3.26051 11.1774 2.96835 11.471C2.67619 11.7646 2.67737 12.2395 2.97099 12.5317L4.02901 11.4683ZM5.98599 15.5317C6.27962 15.8238 6.75449 15.8226 7.04665 15.529C7.33881 15.2354 7.33763 14.7605 7.04401 14.4683L5.98599 15.5317ZM3.5 11.25C3.08579 11.25 2.75 11.5858 2.75 12C2.75 12.4142 3.08579 12.75 3.5 12.75V11.25ZM17.5 12.75C17.9142 12.75 18.25 12.4142 18.25 12C18.25 11.5858 17.9142 11.25 17.5 11.25V12.75ZM5.98599 8.46835L2.97099 11.4683L4.02901 12.5317L7.04401 9.53165L5.98599 8.46835ZM2.97099 12.5317L5.98599 15.5317L7.04401 14.4683L4.02901 11.4683L2.97099 12.5317ZM3.5 12.75L17.5 12.75V11.25L3.5 11.25V12.75Z"
+                fill="#000000"
+              />
+              <path
+                d="M9.5 15C9.5 17.2091 11.2909 19 13.5 19H17.5C19.7091 19 21.5 17.2091 21.5 15V9C21.5 6.79086 19.7091 5 17.5 5H13.5C11.2909 5 9.5 6.79086 9.5 9"
+                stroke="#000000"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </button>
+        )}
       </div>
-      {user.email ? null : (
+      {/* {user.email ? null : (
         <div
           onClick={(e) => {
             googleLogin();
@@ -157,64 +101,16 @@ function App() {
             Sign up with Google
           </button>
         </div>
-      )}
-      {/* {user.email ? (
-        <span className="text-xl font-bold inline-block my-10">
-          User:<strong className="text-lg font-light">{user.name}</strong>
-        </span>
-      ) : null} */}
-      <div className="flex flex-col justify-between bg-[#11090d]">
-        {user.email ? (
-          <div id="chat" className="chat-container ">
-            {chats.map((c) => (
-              <Message
-                {...c}
-                isSelfMessage={c.user.email === user.email}
-                key={c.id}
-                deleteChat={deleteChat}
-                id={c.id}
-                handleReply={handleReply}
-                repliedTo={getChatByID(chats, c.repliedTo)}
-              />
-            ))}
-          </div>
-        ) : null}
-        {/* Chat INPUT */}
-        <div
-          className={`pr-8 pl-8 py-2 transition-colors ease-out duration-150 max-w-[1024px] w-full  mx-auto ${
-            replyingTo ? "bg-white" : "bg-background"
-          }`}
-        >
-          {reply ? (
-            <Reply
-              replyingTo={replyingTo}
-              cancelReply={cancelReply}
-              isSelfMessage={replyingTo.user.email === user.email}
-            />
-          ) : null}
-          {user.email ? (
-            <div className=" bottom-1 w-full flex z-10 gap-4">
-              <input
-                ref={inputChatRef}
-                className="flex-grow p-4 py-2 rounded-md border-2 border-slate-500"
-                type="text"
-                placeholder="Enter your message"
-                onInput={(e) => setMsg(e.target.value)}
-                onKeyDown={(e) => (e.key === "Enter" ? sendChat() : null)}
-                value={msg}
-              />
+      )} */}
+      <Suspense fallback={<p className="text-white text-3xl">Loading....</p>}>
+        <Route path="/signin">
+          <SignupPage user={user} setUser={setUser} />
+        </Route>
 
-              <button
-                disabled={!!msg.length == 0}
-                className="bg-accent rounded-md  text-sm text-white px-3 font-semibold uppercase disabled:bg-slate-300 disabled:cursor-not-allowed"
-                onClick={(e) => sendChat()}
-              >
-                Send
-              </button>
-            </div>
-          ) : null}
-        </div>
-      </div>
+        <Route path="/">
+          <ChatBox user={user} />
+        </Route>
+      </Suspense>
     </>
   );
 }

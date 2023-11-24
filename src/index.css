@@ -15,6 +15,7 @@ body {
   display: flex;
   justify-content: center;
   background: #110;
+  overflow: hidden;
 }
 #root {
   flex: 0 1 70%;
@@ -38,26 +39,17 @@ body {
   background-color: #72b692;
 }
 .chat-container {
-  height: 70vh;
+  height: 90dvh;
   overflow-y: auto;
   background: #f3e7ee;
-  padding: 0 2rem;
+  /* padding: 0 2rem;
+  padding-bottom: 64px; */
   max-width: 1024px;
   margin: auto;
   width: 100%;
   background-image: url("https://external-preview.redd.it/rEwFriCkfAtjOb5b-23b4tGGVcuvfaBqamYNJrgxnLM.png?auto=webp&s=f3bf0b5c90e4c5fda12ff2139781c854554fd198");
 }
 
-/* Hide scrollbar for Chrome, Safari and Opera */
-.chat-container::-webkit-scrollbar {
-  display: none;
-}
-
-/* Hide scrollbar for IE, Edge and Firefox */
-.chat-container {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-}
 
 .line-clamp {
   display: -webkit-box;
@@ -126,3 +118,42 @@ unicode-emoji-picker {
   --emoji-variation-marker-border-color-hover: #aaa;
 }
 
+/* ---Scrollbar css --- */
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #478A66 #DFE9EB;
+}
+
+/* Chrome, Edge and Safari */
+*::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+*::-webkit-scrollbar-track {
+  border-radius: 6px;
+  background-color: #DFE9EB;
+  border: 1px solid #FFFFFF;
+}
+
+*::-webkit-scrollbar-track:hover {
+  background-color: #B8C0C2;
+}
+
+*::-webkit-scrollbar-track:active {
+  background-color: #B8C0C2;
+}
+
+*::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: #478A66;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: #72B692;
+}
+
+*::-webkit-scrollbar-thumb:active {
+  background-color: #72B692;
+}
