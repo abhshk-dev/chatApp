@@ -1,5 +1,5 @@
 import { guessContentType } from "../utils/getMessageType";
-import { useRef, useState,useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import Menu from "./Menu";
 import EmojiMenu from "./EmojiMenu";
 
@@ -38,8 +38,8 @@ const renderMessage = (message, type, repliedMessage = false) => {
       return (
         <span
           className={`${
-            repliedMessage ? " p-1 px-3 opacity-80 line-clamp ml-2" : "pl-1" 
-           } break-words`}
+            repliedMessage ? " p-1 px-3 opacity-80 line-clamp ml-2" : "pl-1"
+          } break-words`}
         >
           {message}
         </span>
@@ -66,21 +66,18 @@ const Message = ({
 }) => {
   const [showMenu, setShowMenu] = useState(false);
   const [emojiMenu, setEmojiMenu] = useState(false);
-  const [reaction,setReaction] = useState([]);
-  const messageRef= useRef(null);
-
-  
+  const [reaction, setReaction] = useState([]);
+  const messageRef = useRef(null);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-     
       if (messageRef.current && !messageRef.current.contains(event.target)) {
-         setEmojiMenu(false);
+        setEmojiMenu(false);
       }
     };
-    document.addEventListener('click', handleClickOutside, true);
+    document.addEventListener("click", handleClickOutside, true);
     return () => {
-      document.removeEventListener('click', handleClickOutside, true);
+      document.removeEventListener("click", handleClickOutside, true);
     };
   }, []);
 
