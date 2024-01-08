@@ -43,7 +43,7 @@ export default function ChatBox({ user }) {
     if (!("Notification" in window)) {
       // Check if the browser supports notifications
       alert("This browser does not support desktop notification");
-    } else if (Notification.permission === "granted" && username===user.name) {
+    } else if (Notification.permission === "granted" && username!==user.name) {
       // Check whether notification permissions have already been granted;
       // if so, create a notification
       const notification = new Notification(username,{
