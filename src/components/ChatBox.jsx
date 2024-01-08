@@ -22,6 +22,7 @@ export default function ChatBox({ user }) {
   const [chats, setChats] = useState([]);
   const [msg, setMsg] = useState("");
   const [reply, setReply] = useState(null);
+  const [notifPermission,setPermission]=useState("");
 
   const inputChatRef = useRef(null);
 
@@ -38,14 +39,26 @@ export default function ChatBox({ user }) {
     }
   };
 
+  useEffect( ()=>{
+    Notification.requestPermission().then(permission => {
+      setPermission(permission);
+    })
+    
+  },[])
+  
   useEffect(() => {
     const unsubscribe = onChildAdded(chatListRef, (data) => {
       // console.log(data.val(), data.key);
       setChats((chats) => [...chats, { ...data.val(), id: data.key }]);
+      // if (notifPermission === "granted"){
+      //   new Notification('hello')
+      // }
       // alert("New Message");
       setTimeout(() => {
         updateHeight();
       }, 100);
+     
+  
     });
     return () => unsubscribe();
   }, []);
@@ -71,6 +84,7 @@ export default function ChatBox({ user }) {
 
     setMsg("");
     setReply(null);
+    
   };
 
   const handleReply = (id) => {
