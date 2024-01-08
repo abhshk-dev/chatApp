@@ -48,11 +48,13 @@ export default function ChatBox({ user }) {
   
   useEffect(() => {
     const unsubscribe = onChildAdded(chatListRef, (data) => {
-      // console.log(data.val(), data.key);
+      console.log(data.val(), data.key);
       setChats((chats) => [...chats, { ...data.val(), id: data.key }]);
-      // if (notifPermission === "granted"){
-      //   new Notification('hello')
-      // }
+      if (notifPermission === "granted" && data.val().user.name != user.name){
+        new Notification(data.val().user.name,{
+          body:data.val().message,
+        })
+      }
       // alert("New Message");
       setTimeout(() => {
         updateHeight();
