@@ -22,7 +22,7 @@ export default function ChatBox({ user }) {
   const [chats, setChats] = useState([]);
   const [msg, setMsg] = useState("");
   const [reply, setReply] = useState(null);
-  const [notifPermission,setPermission]=useState("");
+  const [notifPermission, setPermission] = useState("");
 
   const inputChatRef = useRef(null);
 
@@ -39,34 +39,59 @@ export default function ChatBox({ user }) {
     }
   };
 
-  useEffect( ()=>{
-    Notification.requestPermission().then(permission => {
-      setPermission(permission);
-    })
-    
-  },[])
-  
+  const notifyMe = (msg,username) => {
+    if (!("Notification" in window)) {
+      // Check if the browser supports notifications
+      alert("This browser does not support desktop notification");
+    } else if (Notification.permission === "granted" && username===user.name) {
+      // Check whether notification permissions have already been granted;
+      // if so, create a notification
+      const notification = new Notification(username,{
+        body:msg,
+      });
+      // …
+    } else if (Notification.permission !== "denied") {
+      // We need to ask the user for permission
+      Notification.requestPermission().then((permission) => {
+        // If the user accepts, let's create a notification
+        
+        if (permission === "granted") {
+          const notification = new Notification(username,{
+            body:msg,
+          });
+          // …
+        }
+      });
+    }
+
+    // At last, if the user has denied notifications, and you
+    // want to be respectful there is no need to bother them anymore.
+  };
+
+
+
   useEffect(() => {
     const unsubscribe = onChildAdded(chatListRef, (data) => {
       // console.log(data.val(), data.key);
       setChats((chats) => [...chats, { ...data.val(), id: data.key }]);
-     
+
       // alert("New Message");
       setTimeout(() => {
         updateHeight();
       }, 100);
-      if(window.isSecureContext){
-        console.log("Secure context")
+      if (window.isSecureContext) {
+        console.log("Secure context");
       }
-      if (notifPermission === "granted" && data.val().user.name != user.name){
-        console.log('Notification')
-        new Notification(data.val().user.name,{
-          body:data.val().message,
-  
-        })
-      }
+      // if (notifPermission === "granted" && data.val().user.name != user.name) {
+      //   console.log("Notification");
+      //   new Notification(data.val().user.name, {
+      //     body: data.val().message,
+      //   });
+      // }
+      const username=data.val().user.name;
+      const msg=data.val().message;
       
-  
+      notifyMe(msg, username);
     });
     return () => unsubscribe();
   }, []);
@@ -92,7 +117,6 @@ export default function ChatBox({ user }) {
 
     setMsg("");
     setReply(null);
-    
   };
 
   const handleReply = (id) => {
