@@ -19,15 +19,16 @@ function getChatByID(chats, id) {
 }
 
 export default function ChatBox({ user }) {
+  console.log(user)
+
   const [chats, setChats] = useState([]);
   const [msg, setMsg] = useState("");
   const [reply, setReply] = useState(null);
-  const [notifPermission, setPermission] = useState("");
 
   const inputChatRef = useRef(null);
 
   const replyingTo = getChatByID(chats, reply);
-  console.log(replyingTo);
+  // console.log(replyingTo);
 
   const db = getDatabase();
   const chatListRef = ref(db, "chats");
@@ -43,7 +44,7 @@ export default function ChatBox({ user }) {
     if (!("Notification" in window)) {
       // Check if the browser supports notifications
       alert("This browser does not support desktop notification");
-    } else if (Notification.permission === "granted" && username!==user.name) {
+    } else if (Notification.permission === "granted") {
       // Check whether notification permissions have already been granted;
       // if so, create a notification
       const notification = new Notification(username,{
@@ -71,30 +72,30 @@ export default function ChatBox({ user }) {
 
 
   useEffect(() => {
+    if(!user){
+      return;
+    }
     const unsubscribe = onChildAdded(chatListRef, (data) => {
       // console.log(data.val(), data.key);
       setChats((chats) => [...chats, { ...data.val(), id: data.key }]);
-
-      // alert("New Message");
       setTimeout(() => {
         updateHeight();
       }, 100);
       if (window.isSecureContext) {
         console.log("Secure context");
       }
-      // if (notifPermission === "granted" && data.val().user.name != user.name) {
-      //   console.log("Notification");
-      //   new Notification(data.val().user.name, {
-      //     body: data.val().message,
-      //   });
-      // }
-      const username=data.val().user.name;
-      const msg=data.val().message;
       
-      notifyMe(msg, username);
+      if (data.val().user.name !== user.name ) {
+        const username=data.val().user.name;
+        const msg=data.val().message;
+        // console.log(data.val().user.name, user.name);
+        // console.log(user)
+        notifyMe(msg, username);
+
+      }
     });
     return () => unsubscribe();
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     const unsubscribe = onChildRemoved(chatListRef, (data) => {
