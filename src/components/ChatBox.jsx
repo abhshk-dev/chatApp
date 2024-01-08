@@ -55,6 +55,9 @@ export default function ChatBox({ user }) {
       setTimeout(() => {
         updateHeight();
       }, 100);
+      if(window.isSecureContext){
+        console.log("Secure context")
+      }
       if (notifPermission === "granted" && data.val().user.name != user.name){
         console.log('Notification')
         new Notification(data.val().user.name,{
@@ -62,6 +65,7 @@ export default function ChatBox({ user }) {
   
         })
       }
+      
   
     });
     return () => unsubscribe();
