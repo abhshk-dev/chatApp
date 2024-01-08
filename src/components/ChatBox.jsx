@@ -53,6 +53,7 @@ export default function ChatBox({ user }) {
       if (notifPermission === "granted" && data.val().user.name != user.name){
         new Notification(data.val().user.name,{
           body:data.val().message,
+          silent:true,
         })
       }
       // alert("New Message");
