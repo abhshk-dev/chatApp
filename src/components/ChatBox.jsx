@@ -19,7 +19,7 @@ function getChatByID(chats, id) {
 }
 
 export default function ChatBox({ user }) {
-  console.log(user)
+  console.log(user);
 
   const [chats, setChats] = useState([]);
   const [msg, setMsg] = useState("");
@@ -40,26 +40,29 @@ export default function ChatBox({ user }) {
     }
   };
 
-  const notifyMe = (msg,username) => {
+  const notifyMe = (msg, username) => {
+    const options = {
+      silent:true
+    };
+    if (guessContentType(msg) === "image") {
+      options["image"] = msg;
+    } else {
+      options["body"] = msg;
+    }
     if (!("Notification" in window)) {
       // Check if the browser supports notifications
       alert("This browser does not support desktop notification");
     } else if (Notification.permission === "granted") {
       // Check whether notification permissions have already been granted;
       // if so, create a notification
-      const notification = new Notification(username,{
-        body:msg,
-      });
+      new Notification(username, options);
       // …
     } else if (Notification.permission !== "denied") {
       // We need to ask the user for permission
       Notification.requestPermission().then((permission) => {
         // If the user accepts, let's create a notification
-        
         if (permission === "granted") {
-          const notification = new Notification(username,{
-            body:msg,
-          });
+          new Notification(username, options);
           // …
         }
       });
@@ -69,10 +72,8 @@ export default function ChatBox({ user }) {
     // want to be respectful there is no need to bother them anymore.
   };
 
-
-
   useEffect(() => {
-    if(!user){
+    if (!user) {
       return;
     }
     const unsubscribe = onChildAdded(chatListRef, (data) => {
@@ -84,14 +85,13 @@ export default function ChatBox({ user }) {
       if (window.isSecureContext) {
         console.log("Secure context");
       }
-      
-      if (data.val().user.name !== user.name ) {
-        const username=data.val().user.name;
-        const msg=data.val().message;
+
+      if (data.val().user.name !== user.name) {
+        const username = data.val().user.name;
+        const msg = data.val().message;
         // console.log(data.val().user.name, user.name);
         // console.log(user)
         notifyMe(msg, username);
-
       }
     });
     return () => unsubscribe();
