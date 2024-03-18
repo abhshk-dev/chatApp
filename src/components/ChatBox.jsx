@@ -135,7 +135,7 @@ export default function ChatBox({ user }) {
   };
 
   return (
-    <div className="flex flex-col justify-between bg-[#11090d] relative">
+    <div className="flex flex-col justify-between bg-text  relative">
       {user.email ? (
         <div id="chat" className="chat-container px-8 pb-16 ">
           {chats.map((c) => (
