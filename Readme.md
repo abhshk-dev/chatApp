@@ -26,9 +26,10 @@ b.) Drop-Up on click of chat messages to be displayed with options such as Delet
 c.) React with emojis functionality ❌
 d.) Reply functionality to be implemented ✅
 e.) Emoji library to be added ⌛
-f.) Wooter to be added. ❌
+f.) Wouter to be added. ✅
 g.) In built gif sending funcitonality.
+h.) Notification feature added. ✅
 
 # Code Improvement Ideas.
 
-a.) Use ContextAPI to solve prop drilling issue / improve code readability.
+a.) Use ContextAPI to solve prop drilling issue / improve code readability.✅
