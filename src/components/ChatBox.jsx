@@ -71,6 +71,12 @@ export default function ChatBox({ user }) {
 
     setMsg("");
     setReply(null);
+
+    Notification.requestPermission().then((permission) => {
+      if (permission === "granted") {
+        const notif = new Notification("Message sent ");
+      }
+    });
   };
 
   const handleReply = (id) => {
