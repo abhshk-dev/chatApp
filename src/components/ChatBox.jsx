@@ -19,6 +19,8 @@ function getChatByID(chats, id) {
 }
 
 export default function ChatBox({ user }) {
+  console.log(user);
+
   const [chats, setChats] = useState([]);
   const [msg, setMsg] = useState("");
   const [reply, setReply] = useState(null);
@@ -26,7 +28,7 @@ export default function ChatBox({ user }) {
   const inputChatRef = useRef(null);
 
   const replyingTo = getChatByID(chats, reply);
-  console.log(replyingTo);
+  // console.log(replyingTo);
 
   const db = getDatabase();
   const chatListRef = ref(db, "chats");
@@ -38,17 +40,62 @@ export default function ChatBox({ user }) {
     }
   };
 
+  const notifyMe = (msg, username) => {
+    const options = {
+      silent:true
+    };
+    if (guessContentType(msg) === "image") {
+      options["image"] = msg;
+    } else {
+      options["body"] = msg;
+    }
+    if (!("Notification" in window)) {
+      // Check if the browser supports notifications
+      alert("This browser does not support desktop notification");
+    } else if (Notification.permission === "granted") {
+      // Check whether notification permissions have already been granted;
+      // if so, create a notification
+      new Notification(username, options);
+      // …
+    } else if (Notification.permission !== "denied") {
+      // We need to ask the user for permission
+      Notification.requestPermission().then((permission) => {
+        // If the user accepts, let's create a notification
+        if (permission === "granted") {
+          new Notification(username, options);
+          // …
+        }
+      });
+    }
+
+    // At last, if the user has denied notifications, and you
+    // want to be respectful there is no need to bother them anymore.
+  };
+
   useEffect(() => {
+    if (!user) {
+      return;
+    }
     const unsubscribe = onChildAdded(chatListRef, (data) => {
       // console.log(data.val(), data.key);
       setChats((chats) => [...chats, { ...data.val(), id: data.key }]);
-      // alert("New Message");
       setTimeout(() => {
         updateHeight();
       }, 100);
+      if (window.isSecureContext) {
+        console.log("Secure context");
+      }
+
+      if (data.val().user.name !== user.name) {
+        const username = data.val().user.name;
+        const msg = data.val().message;
+        // console.log(data.val().user.name, user.name);
+        // console.log(user)
+        notifyMe(msg, username);
+      }
     });
     return () => unsubscribe();
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     const unsubscribe = onChildRemoved(chatListRef, (data) => {
@@ -94,7 +141,7 @@ export default function ChatBox({ user }) {
   };
 
   return (
-    <div className="flex flex-col justify-between bg-[#11090d] relative">
+    <div className="flex flex-col justify-between bg-text  relative">
       {user.email ? (
         <div id="chat" className="chat-container px-8 pb-16 ">
           {chats.map((c) => (
