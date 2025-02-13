@@ -19,7 +19,7 @@ function getChatByID(chats, id) {
 }
 
 export default function ChatBox({ user }) {
-  console.log(user);
+  // console.log(user);
 
   const [chats, setChats] = useState([]);
   const [msg, setMsg] = useState("");
@@ -42,7 +42,7 @@ export default function ChatBox({ user }) {
 
   const notifyMe = (msg, username) => {
     const options = {
-      silent:true
+      silent: true,
     };
     if (guessContentType(msg) === "image") {
       options["image"] = msg;
@@ -83,7 +83,7 @@ export default function ChatBox({ user }) {
         updateHeight();
       }, 100);
       if (window.isSecureContext) {
-        console.log("Secure context");
+        // console.log("Secure context");
       }
 
       if (data.val().user.name !== user.name) {
@@ -127,7 +127,7 @@ export default function ChatBox({ user }) {
   };
 
   const handleReply = (id) => {
-    console.log(id);
+    // console.log(id);
     setReply(id);
     inputChatRef.current?.focus();
   };
